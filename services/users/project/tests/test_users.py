@@ -29,12 +29,14 @@ class TestUserService(BaseTestCase):
             response = self.client.post('/users',
                                         data=json.dumps({
                                             'username': 'argi',
-                                            'email': 'argipapaefstathiou@gmail.com'
+                                            'email':
+                                                'argipapaefstathiou@gmail.com'
                                         }),
                                         content_type='application/json')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 201)
-            self.assertIn('argipapaefstathiou@gmail.com was added', data['message'])
+            self.assertIn('argipapaefstathiou@gmail.com was added',
+                          data['message'])
             self.assertIn('success', data['status'])
 
     def test_add_user_invalid_json(self):
@@ -54,7 +56,10 @@ class TestUserService(BaseTestCase):
         """
         with self.client:
             response = self.client.post('/users',
-                                        data=json.dumps({'email': 'argipapaefstathiou@gmail.com'}),
+                                        data=json.dumps({
+                                            'email':
+                                                'argipapaefstathiou@gmail.com'
+                                        }),
                                         content_type='application/json')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 400)
@@ -74,7 +79,8 @@ class TestUserService(BaseTestCase):
             response = self.client.post('/users',
                                         data=json.dumps({
                                             'username': 'argi',
-                                            'email': 'argipapaefstathiou@gmail.com'
+                                            'email':
+                                                'argipapaefstathiou@gmail.com'
                                         }),
                                         content_type='application/json')
             data = json.loads(response.data.decode())
@@ -91,7 +97,8 @@ class TestUserService(BaseTestCase):
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertIn('argi', data['data']['username'])
-            self.assertIn('argipapaefstathiou@gmail.com', data['data']['email'])
+            self.assertIn('argipapaefstathiou@gmail.com',
+                          data['data']['email'])
             self.assertIn('success', data['status'])
 
     def test_single_user_no_id(self):
@@ -126,7 +133,8 @@ class TestUserService(BaseTestCase):
                 'michael@mherman.org', data['data']['users'][0]['email'])
             self.assertIn('argi', data['data']['users'][1]['username'])
             self.assertIn(
-                'argipapaefstathiou@gmail.com', data['data']['users'][1]['email'])
+                'argipapaefstathiou@gmail.com',
+                data['data']['users'][1]['email'])
             self.assertIn('success', data['status'])
 
     def test_main_no_users(self):
@@ -153,9 +161,12 @@ class TestUserService(BaseTestCase):
     def test_main_add_user(self):
         """Ensure a new user can be added to the database."""
         with self.client:
-            response = self.client.post('/',
-                                        data=dict(username='argi', email='argipapaefstathiou@gmail.com'),
-                                        follow_redirects=True)
+            response = self.client.post(
+                '/',
+                data=dict(username='argi',
+                          email='argipapaefstathiou@gmail.com'),
+                follow_redirects=True
+            )
             self.assertEqual(response.status_code, 200)
             self.assertIn(b'<h1>All Users</h1>', response.data)
             self.assertNotIn(b'<p>No users!</p>', response.data)
