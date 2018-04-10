@@ -21,7 +21,7 @@ COPY ./entrypoint.sh /usr/src/app/entrypoint.sh
 
 # add app
 COPY . /usr/src/app
-RUN ["chown", "-R", "/usr/src/app"]
+RUN ["chown", "-R root:root", "/usr/src/app"]
 
 # run server
 CMD ["./entrypoint.sh"]
