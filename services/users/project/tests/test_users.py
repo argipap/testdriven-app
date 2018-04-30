@@ -87,7 +87,8 @@ class TestUserService(BaseTestCase):
 
     def test_single_user(self):
         """Ensure get single user behaves correctly."""
-        user = add_user(username='argi', email='argipapaefstathiou@gmail.com', password='test')
+        user = add_user(username='argi', email='argipapaefstathiou@gmail.com',
+                        password='test')
         with self.client:
             response = self.client.get(f'/users/{user.id}')
             data = json.loads(response.data.decode())
@@ -160,7 +161,8 @@ class TestUserService(BaseTestCase):
             response = self.client.post(
                 '/',
                 data=dict(username='argi',
-                          email='argipapaefstathiou@gmail.com', password='test'),
+                          email='argipapaefstathiou@gmail.com',
+                          password='test'),
                 follow_redirects=True
             )
             self.assertEqual(response.status_code, 200)
@@ -187,7 +189,6 @@ class TestUserService(BaseTestCase):
             self.assertEqual(response.status_code, 400)
             self.assertIn('Invalid payload.', data['message'])
             self.assertIn('fail', data['status'])
-
 
 
 if __name__ == '__main__':
