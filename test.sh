@@ -28,8 +28,13 @@ docker-compose -f ${file} run users flake8 project
 inspect $? users-lint
 
 if [[ "${env}" == "dev" ]]; then
-    docker-compose -f $file run client npm test -- --coverage
+    docker-compose -f ${file} run client npm test -- --coverage
     inspect $? client
+    testcafe chrome e2e
+    inspect $? e2e
+else
+    testcafe chrome e2e/index.test.js
+    inspect $? e2e
 fi
 
 if [ -n "${fails}" ]; then
